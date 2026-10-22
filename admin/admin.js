@@ -1,0 +1,79 @@
+
+const SUPABASE_URL = "https://dxjwybdoeaktnugehbhd.supabase.co";
+const SUPABASE_KEY = "sb_publishable_6EhfeqIa8oWhLu2kkg-WLw_ntj2NcIL";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+
+
+const loginForm = document.getElementById("login-form");
+const loginSection = document.getElementById("login-section");
+const dashboard = document.getElementById("dashboard-section");
+const statusMessage = document.getElementById("status-message");
+
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  statusMessage.textContent = "Проверяем данные...";
+
+  const { error } = await db.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    statusMessage.textContent = "Ошибка входа: " + error.message;
+    return;
+  }
+
+  statusMessage.textContent = "Вход выполнен.";
+  await checkAdmin();
+});
+
+async function checkAdmin() {
+  const { data: { user } } = await db.auth.getUser();
+
+  if (!user) {
+    loginSection.hidden = false;
+    dashboard.hidden = true;
+    return;
+  }
+
+  const { data, error } = await db
+    .from("site_admins")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (error || !data) {
+    await db.auth.signOut();
+    statusMessage.textContent = "Нет прав администратора.";
+    loginSection.hidden = false;
+    dashboard.hidden = true;
+    return;
+  }
+
+  loginSection.hidden = true;
+  dashboard.hidden = false;
+  statusMessage.textContent = "Добро пожаловать!";
+}
+
+document.getElementById("logout-button").addEventListener("click", async () => {
+  await db.auth.signOut();
+  loginSection.hidden = false;
+  dashboard.hidden = true;
+  statusMessage.textContent = "Вы вышли из панели.";
+});
+
+db.auth.onAuthStateChange(() => {
+  setTimeout(() => checkAdmin(), 0);
+});
+
+checkAdmin();
