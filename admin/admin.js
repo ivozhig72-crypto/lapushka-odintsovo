@@ -120,3 +120,47 @@ document.getElementById("change-password-button").addEventListener("click", asyn
     alert("Пароль успешно изменён!");
   }
 });
+// Управление мероприятиями «Лапушки»
+const eventsManager = document.getElementById("events-manager");
+
+function showEventForm() {
+  eventsManager.innerHTML = `
+    <h4>Добавить мероприятие</h4>
+    <form id="event-form">
+      <input id="event-title" placeholder="Название мероприятия" required>
+      <textarea id="event-description" placeholder="Описание"></textarea>
+      <label for="event-date">Дата мероприятия</label>
+      <input id="event-date" type="date" required>
+      <button type="submit">Опубликовать мероприятие</button>
+    </form>
+    <p id="event-status"></p>
+  `;
+}
+showEventForm();
+
+eventsManager.addEventListener("submit", async (event) => {
+  if (event.target.id !== "event-form") return;
+
+  event.preventDefault();
+
+  const title = document.getElementById("event-title").value.trim();
+  const description = document.getElementById("event-description").value.trim();
+  const event_date = document.getElementById("event-date").value;
+  const status = document.getElementById("event-status");
+
+  status.textContent = "Сохраняем мероприятие...";
+
+  const { error } = await db.from("site_events").insert({
+    title,
+    description,
+    event_date,
+    is_published: true
+  });
+
+  if (error) {
+    status.textContent = "Ошибка сохранения: " + error.message;
+  } else {
+    status.textContent = "Мероприятие успешно сохранено!";
+    event.target.reset();
+  }
+});
