@@ -102,3 +102,21 @@ db.auth.onAuthStateChange(async (event) => {
     alert("Пароль успешно изменён! Теперь можно войти.");
   }
 });
+document.getElementById("change-password-button").addEventListener("click", async () => {
+  const password = prompt("Введите новый пароль (не менее 8 символов):");
+
+  if (password === null) return;
+
+  if (password.length < 8) {
+    alert("Пароль должен содержать не менее 8 символов.");
+    return;
+  }
+
+  const { error } = await db.auth.updateUser({ password });
+
+  if (error) {
+      alert("Ошибка смены пароля: " + error.message);
+  } else {
+    alert("Пароль успешно изменён!");
+  }
+});
