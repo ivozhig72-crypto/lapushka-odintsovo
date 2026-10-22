@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Лапушка — панель управления</title>
+  <link rel="stylesheet" href="./admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
+  <script src="./admin.js" defer></script>
+</head>
+<body>
+  <main class="admin-container">
+    <h1>🐰 Лапушка</h1>
+    <p>Панель управления студией</p>
+
+    <section id="login-section">
+      <h2>Вход для администратора</h2>
+      <form id="login-form">
+        <label for="email">Электронная почта</label>
+        <input id="email" type="email" autocomplete="username" required>
+        <label for="password">Пароль</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+        <button type="submit">Войти</button>
+      </form>
+    </section>
+
+    <section id="dashboard-section" hidden>
+      <h2>Управление сайтом</h2>
+      <button id="logout-button" type="button">Выйти</button>
+      <section>
+        <h3>Мероприятия</h3>
+        <div id="events-manager"></div>
+      </section>
+      <section>
+        <h3>Фотографии</h3>
+        <div id="photos-manager"></div>
+      </section>
+    </section>
+
+    <p id="status-message" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>
