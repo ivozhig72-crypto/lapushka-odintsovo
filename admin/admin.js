@@ -77,3 +77,28 @@ db.auth.onAuthStateChange(() => {
 });
 
 checkAdmin();
+
+db.auth.onAuthStateChange(async (event) => {
+  if (event !== "PASSWORD_RECOVERY") return;
+
+  const password = prompt(
+    "Введите новый пароль для панели Лапушки (не менее 8 символов):"
+  );
+
+  if (!password) return;
+
+  if (password.length < 8) {
+    alert("Пароль должен содержать не менее 8 символов.");
+    return;
+  }
+
+  const { error } = await db.auth.updateUser({
+    password: password
+  });
+
+  if (error) {
+    alert("Не удалось изменить пароль: " + error.message);
+  } else {
+    alert("Пароль успешно изменён! Теперь можно войти.");
+  }
+});
