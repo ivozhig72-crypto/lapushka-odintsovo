@@ -164,3 +164,66 @@ eventsManager.addEventListener("submit", async (event) => {
     event.target.reset();
   }
 });
+
+// Управление фотографиями «Лапушки»
+const photosManager = document.getElementById("photos-manager");
+
+photosManager.innerHTML = `
+  <h4>Добавить фотографию</h4>
+  <form id="photo-form">
+    <label for="photo-file">Выберите фотографию</label>
+    <input id="photo-file" type="file" accept="image/*" required>
+
+    <label for="photo-caption">Подпись к фотографии</label>
+    <input id="photo-caption" type="text" placeholder="Например: Наш мастер-класс">
+
+    <button type="submit">Загрузить фотографию</button>
+  </form>
+  <p id="photo-status"></p>
+`;
+
+
+document.getElementById("photo-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const file = document.getElementById("photo-file").files[0];
+  const caption = document.getElementById("photo-caption").value.trim();
+  const status = document.getElementById("photo-status");
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/") || file.size > 10 * 1024 * 1024) {
+    status.textContent = "Выберите изображение размером до 10 МБ.";
+    return;
+  }
+
+  status.textContent = "Загружаем фотографию...";
+
+  const extension = file.name.split(".").pop().toLowerCase();
+  const path = `${crypto.randomUUID()}.${extension}`;
+
+  const { error: uploadError } = await db.storage
+    .from("lapushka-images")
+    .upload(path, file, { contentType: file.type });
+
+  if (uploadError) {
+    status.textContent = "Ошибка загрузки: " + uploadError.message;
+    return;
+  }
+
+  const { data } = db.storage
+    .from("lapushka-images")
+    .getPublicUrl(path);
+
+  const { error: saveError } = await db
+    .from("site_photos")
+    .insert({ image_url: data.publicUrl, caption });
+
+  if (saveError) {
+    status.textContent = "Ошибка сохранения: " + saveError.message;
+    return;
+  }
+
+  status.textContent = "Фотография успешно загружена!";
+  event.target.reset();
+});
