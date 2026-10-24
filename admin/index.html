@@ -12,32 +12,26 @@
   <main class="admin-container">
     <h1>🐰 Лапушка</h1>
     <p>Панель управления студией</p>
-
     <section id="login-section">
       <h2>Вход для администратора</h2>
       <form id="login-form">
         <label for="email">Электронная почта</label>
         <input id="email" type="email" autocomplete="username" required>
         <label for="password">Пароль</label>
-        <input id="password" type="password" autocomplete="current-password" required>
+        <div class="password-row">
+          <input id="password" type="password" autocomplete="current-password" required>
+          <button id="toggle-password" class="secondary small" type="button" aria-label="Показать пароль" aria-pressed="false">Показать</button>
+        </div>
         <button type="submit">Войти</button>
       </form>
     </section>
-
     <section id="dashboard-section" hidden>
       <h2>Управление сайтом</h2>
-      <button id="logout-button" type="button">Выйти</button>
-      <button id="change-password-button" type="button">Сменить пароль</button>
-      <section>
-        <h3>Мероприятия</h3>
-        <div id="events-manager"></div>
-      </section>
-      <section>
-        <h3>Фотографии</h3>
-        <div id="photos-manager"></div>
-      </section>
+      <div class="actions"><button id="logout-button" type="button">Выйти</button><button id="change-password-button" type="button">Сменить пароль</button></div>
+      <section><h3>Мероприятия</h3><div id="events-manager"></div></section>
+      <section><h3>Фотографии</h3><div id="photos-manager"></div></section>
+      <section><h3>Цены и абонементы</h3><div id="prices-manager"></div></section>
     </section>
-
     <p id="status-message" role="status" aria-live="polite"></p>
   </main>
 </body>

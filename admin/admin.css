@@ -1,71 +1,26 @@
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 24px 16px;
-  background: #fff8f1;
-  color: #333;
-  font-family: Arial, sans-serif;
-}
-
-.admin-container {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 24px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px #00000012;
-}
-
-h1 {
-  color: #ef7195;
-  margin-bottom: 8px;
-}
-
-h2, h3 {
-  color: #6651a5;
-}
-
-form, section {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin: 14px 0 6px;
-}
-
-input, textarea, button {
-  width: 100%;
-  padding: 13px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  font: inherit;
-}
-
-input, textarea {
-  border: 1px solid #ccc;
-}
-
-button {
-  background: #ef7195;
-  border: none;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #d9587d;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-#status-message {
-  color: #6651a5;
-}
+* { box-sizing: border-box; }
+body { margin: 0; padding: 24px 16px; background: #fff8f1; color: #333; font-family: Arial, sans-serif; }
+.admin-container { max-width: 760px; margin: 0 auto; padding: 24px; background: white; border-radius: 20px; box-shadow: 0 4px 20px #00000012; }
+h1 { color: #ef7195; margin-bottom: 8px; }
+h2, h3 { color: #6651a5; }
+form, section { margin-bottom: 20px; }
+label { display: block; margin: 14px 0 6px; }
+input, textarea, button { width: 100%; padding: 13px; margin-bottom: 12px; border-radius: 10px; font: inherit; }
+input, textarea { border: 1px solid #ccc; }
+button { background: #ef7195; border: none; color: white; font-weight: bold; cursor: pointer; }
+button:hover { background: #d9587d; }
+button:disabled { opacity: .55; cursor: wait; }
+button.secondary { background: #6651a5; }
+button.danger { background: #a93253; }
+button.small { width: auto; padding: 10px 12px; }
+.password-row { display: flex; gap: 8px; align-items: stretch; }
+.password-row input { min-width: 0; flex: 1; }
+.actions { display: flex; gap: 8px; }
+.actions button { flex: 1; }
+.card { padding: 14px; border: 1px solid #e6dce5; border-radius: 12px; margin: 12px 0; overflow-wrap: anywhere; }
+.card img { display: block; max-width: 100%; max-height: 260px; object-fit: contain; margin: 10px 0; border-radius: 8px; }
+.muted { color: #6651a5; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row button { flex: 1; min-width: 120px; }
+[hidden] { display: none !important; }
+#status-message, .status { color: #6651a5; white-space: pre-wrap; }
